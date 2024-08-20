@@ -145,15 +145,12 @@ class ReportController extends Controller
         try {
             $report = Report::with('user', 'location', 'histories')->findOrFail($id);
     
-            // Return the report with its associated user, location, and histories
             return response()->json($report, 200);
         } catch (ModelNotFoundException $e) {
-            // Return a JSON response with a 404 error if the report is not found
             return response()->json(['error' => 'Report not found'], 404);
         } catch (\Exception $e) {
             Log::error('Failed to retrieve report: ' . $e->getMessage());
     
-            // Return a JSON response with a 500 error for any other exceptions
             return response()->json(['error' => 'Failed to retrieve report'], 500);
         }
     }
@@ -174,22 +171,18 @@ class ReportController extends Controller
                 'history' => 'nullable|array',
             ]);
     
-            // Find the report
             $report = Report::findOrFail($id);
     
-            // Handle file uploads
             if ($request->hasFile('photos')) {
                 $photos = [];
                 foreach ($request->file('photos') as $photo) {
                     $path = $photo->store('photos', 'public');
                     $photos[] = Storage::url($path);
                 }
-                // Merge new photos with existing ones if needed
                 $existingPhotos = json_decode($report->photos, true) ?? [];
                 $validated['photos'] = json_encode(array_merge($existingPhotos, $photos));
             }
     
-            // Handle location
             if (isset($validated['location']) && !empty($validated['location'])) {
                 $locationData = $validated['location'];
                 $location = Location::updateOrCreate(
@@ -199,7 +192,6 @@ class ReportController extends Controller
                 $validated['location_id'] = $location->id;
             }
     
-            // Update the report
             $report->update($validated);
     
             // Handle history if provided
