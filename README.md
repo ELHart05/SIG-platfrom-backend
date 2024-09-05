@@ -64,3 +64,42 @@ If you discover a security vulnerability within Laravel, please send an e-mail t
 ## License
 
 The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+
+# How to Run the Laravel Project
+
+### 1. Create `.env` file
+   - Copy the content from the provided `env.example` file and create a new `.env` file (or use the one proivded).
+
+### 2. Configure SQLite Database
+   - Make sure the database driver is set to `sqlite` in your `.env` file:
+     ```env
+     DB_CONNECTION=sqlite
+     DB_DATABASE=/absolute/path/to/database/database.sqlite (specify the absolute path of the file)
+     ```
+   - Copy the SQLite database file (if provided) to the correct location as specified in the `DB_DATABASE` field, or create the SQLite file if it doesn’t exist.
+
+### 3. Install Dependencies
+   - Run the following command to install all required dependencies:
+     ```bash
+     composer install
+     ```
+
+### 4. Run Database Migrations (optional)
+   - If you need to create the tables or update the schema, run:
+     ```bash
+     php artisan migrate
+     ```
+
+### 5. Start the Development Server
+   - Use the following command to start the development server:
+     ```bash
+     php artisan serve
+     ```
+
+### 6. Access the Application
+   - Open your browser and navigate to the URL provided by the server, typically:
+     ```
+     http://127.0.0.1:8000
+     ```
+
+Now, your Laravel project should be up and running!
